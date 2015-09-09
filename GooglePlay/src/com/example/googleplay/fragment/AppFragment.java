@@ -1,18 +1,24 @@
 package com.example.googleplay.fragment;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AppFragment extends Fragment {
+import com.example.base.BaseFragment;
+
+public class AppFragment extends BaseFragment {
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		TextView view=new TextView(getActivity());
-		view.setText("AppFragment");
-		return view;
+	protected int getLayoutId() {
+		return android.R.layout.simple_expandable_list_item_1;
+	}
+
+	@Override
+	protected void initView(View view) {
+		((TextView)view).setText("AppFragment");
+	}
+
+	@Override
+	protected void initData() {
+		
 	}
 }

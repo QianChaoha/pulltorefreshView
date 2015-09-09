@@ -1,11 +1,10 @@
 package com.example.googleplay.adapter;
 
-import com.example.googleplay.fragment.Fragment1;
-import com.example.googleplay.fragment.FragmentFactory;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.util.FragmentFactory;
 
 public class MainActivityAdapter extends FragmentPagerAdapter {
 	private String[] tabStrings;

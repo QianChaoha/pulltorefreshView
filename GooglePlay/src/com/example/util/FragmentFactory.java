@@ -1,7 +1,14 @@
-package com.example.googleplay.fragment;
+package com.example.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.googleplay.fragment.AppFragment;
+import com.example.googleplay.fragment.CategoryFragment;
+import com.example.googleplay.fragment.GameFragment;
+import com.example.googleplay.fragment.HomeFragment;
+import com.example.googleplay.fragment.SubjectFragment;
+import com.example.googleplay.fragment.TopFragment;
 
 import android.support.v4.app.Fragment;
 
