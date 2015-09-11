@@ -1,5 +1,6 @@
 package com.example.application;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -69,7 +70,8 @@ public class MyApplication extends Application {
      */
     protected final LruCache<String, Bitmap> imageCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime()
             .maxMemory() / 1024 / 8)) {
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         protected int sizeOf(String key, Bitmap bitmap) {
             // 重写此方法来衡量每张图片的大小，默认返回图片数量。
             int size = 0;

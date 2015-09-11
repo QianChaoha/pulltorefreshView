@@ -22,7 +22,7 @@ public class CommenNetImageView extends NetworkImageView{
         super(context, attrs, defStyle);
     }
     public void init(){
-        setErrorImageResId(R.drawable.ic_launcher);
-        setDefaultImageResId(R.drawable.ic_launcher);
+        setErrorImageResId(R.drawable.ic_default);
+        setDefaultImageResId(R.drawable.ic_default);
     }
 }

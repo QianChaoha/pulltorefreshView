@@ -39,7 +39,6 @@ public abstract class BaseActivity extends FragmentActivity  {
      * 配置文件操作
      */
     protected SharePreference spUtil;
-    protected NetJsonRequest netJsonRequest;
 
     /**
      * 布局ID
@@ -64,7 +63,6 @@ public abstract class BaseActivity extends FragmentActivity  {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("获取数据中");
         mProgressDialog.setCancelable(false);
-        netJsonRequest=new NetJsonRequest(mProgressDialog,getRequests());
 
         spUtil = new SharePreference(this, "config");
         setContentView(getLayoutId());

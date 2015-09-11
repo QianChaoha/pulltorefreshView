@@ -8,7 +8,6 @@ import android.view.View;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.application.MyApplication;
-import com.example.http.NetJsonRequest;
 import com.example.util.SharePreference;
 
 /**
@@ -44,7 +43,6 @@ public abstract class BaseViewPage {
      * 配置文件操作
      */
     protected SharePreference spUtil;
-    protected NetJsonRequest netJsonRequest;
 
     protected RequestQueue requestQueue;
 
@@ -53,9 +51,6 @@ public abstract class BaseViewPage {
         mProgressDialog = new ProgressDialog(mActivity, AlertDialog.THEME_HOLO_LIGHT);
         mProgressDialog.setMessage("获取数据中");
         mProgressDialog.setCancelable(false);
-        netJsonRequest = new NetJsonRequest(mProgressDialog, getRequests());
-
-
         mRootView = View.inflate(mActivity, getLayoutId(), null);
         initViews(mRootView);
         initData();
@@ -73,7 +68,7 @@ public abstract class BaseViewPage {
     public abstract void initData();
 
     /**
-     * 初始化布局
+     * 获取布局Id
      */
     public abstract int getLayoutId();
 
