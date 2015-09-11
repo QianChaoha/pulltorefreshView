@@ -6,7 +6,7 @@ import com.example.http.parser.BackResult;
 
 public class HomeData extends BackResult{
 	private List<String> picture;
-	private List<String> list;
+	private List<Content> list;
 	
 	public List<String> getPicture() {
 		return picture;
@@ -16,11 +16,12 @@ public class HomeData extends BackResult{
 		this.picture = picture;
 	}
 
-	public List<String> getList() {
+
+	public List<Content> getList() {
 		return list;
 	}
 
-	public void setList(List<String> list) {
+	public void setList(List<Content> list) {
 		this.list = list;
 	}
 

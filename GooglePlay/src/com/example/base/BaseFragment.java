@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.application.MyApplication;
-import com.example.http.NetJsonRequest;
 import com.example.util.SharePreference;
 
 public abstract class BaseFragment extends Fragment {
@@ -130,7 +128,7 @@ public abstract class BaseFragment extends Fragment {
 		}
 	}
 
-	public View getRootView() {
+	protected View getRootView() {
 		return mRootView;
 	}
 }

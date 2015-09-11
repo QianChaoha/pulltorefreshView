@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
@@ -16,9 +18,12 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.application.MyApplication;
 import com.example.googleplay.R;
@@ -51,7 +56,7 @@ public class NetJsonRequest<T extends BackResult> {
 
 				@Override
 				public void onErrorResponse(VolleyError volleyError) {
-					mProgressDialog.dismiss();
+//					mProgressDialog.dismiss();
 					if (!isConnected(mProgressDialog.getContext())) {
 						Toast.makeText(mProgressDialog.getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
 					} else if (volleyError != null) {
@@ -86,7 +91,20 @@ public class NetJsonRequest<T extends BackResult> {
 					}
 				}
 			}
-		}, errorListener);
+		}, errorListener) {
+			@Override
+			protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+				try {
+					JSONObject jsonObject = new JSONObject(new String(response.data, "utf-8"));
+					return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
+				} catch (UnsupportedEncodingException e) {
+					return Response.error(new ParseError(e));
+				} catch (JSONException e) {
+					return Response.error(new ParseError(e));
+				}
+
+			}
+		};
 		mRequestQueue.add(request);
 	}
 
