@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.util.FragmentFactory;
+import com.example.googleplay.util.FragmentFactory;
 
 public class MainActivityAdapter extends FragmentPagerAdapter {
 	private String[] tabStrings;

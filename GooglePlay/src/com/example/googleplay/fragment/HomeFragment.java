@@ -1,20 +1,23 @@
 package com.example.googleplay.fragment;
 
-import org.json.JSONException;
+import java.util.List;
 
 import android.view.View;
-import android.widget.ListView;
 
 import com.android.volley.Request.Method;
-import com.example.base.BaseFragment;
-import com.example.data.HomeData;
 import com.example.googleplay.R;
-import com.example.http.HttpHelper;
-import com.example.http.NetJsonRequest;
-import com.example.interfaces.NetRequestResult;
+import com.example.googleplay.adapter.HomeContentAdapter;
+import com.example.googleplay.base.BaseFragment;
+import com.example.googleplay.data.HomeData;
+import com.example.googleplay.data.HomeData.AppInfo;
+import com.example.googleplay.http.HttpHelper;
+import com.example.googleplay.http.NetJsonRequest;
+import com.example.googleplay.interfaces.NetRequestResult;
+import com.example.googleplay.view.BaseListView;
 
 public class HomeFragment extends BaseFragment {
-	private ListView listview;
+	private BaseListView listview;
+	private List<AppInfo> contents;
 
 	@Override
 	protected int getLayoutId() {
@@ -23,24 +26,22 @@ public class HomeFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view) {
-		listview=(ListView) view.findViewById(R.id.listview);
-		try {
-			jsonParam.put("index", 0);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		NetJsonRequest<HomeData> netJsonRequest=new NetJsonRequest<HomeData>(mProgressDialog);
-		netJsonRequest.netJsonRequest(Method.GET, HttpHelper.HOME_URL, jsonParam, HomeData.class,new NetRequestResult<HomeData>() {
-			
+		listview = (BaseListView) view.findViewById(R.id.listview);
+		NetJsonRequest<HomeData> netJsonRequest = new NetJsonRequest<HomeData>(mProgressDialog);
+		netJsonRequest.netJsonRequest(Method.GET, HttpHelper.HOME_URL, null, HomeData.class, new NetRequestResult<HomeData>() {
+
 			@Override
 			public void onResponse(HomeData result) {
-				  				
+				if (result != null && result.getList() != null && result.getList().size() > 0) {
+					contents=result.getList();
+					listview.setAdapter(new HomeContentAdapter(getActivity(), contents));
+				}
 			}
-		},null);
+		}, null);
 	}
 
 	@Override
 	protected void initData() {
-		
+
 	}
 }

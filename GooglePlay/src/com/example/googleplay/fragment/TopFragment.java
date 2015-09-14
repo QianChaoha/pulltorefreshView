@@ -2,7 +2,8 @@ package com.example.googleplay.fragment;
 
 import android.view.View;
 import android.widget.TextView;
-import com.example.base.BaseFragment;
+
+import com.example.googleplay.base.BaseFragment;
 
 public class TopFragment extends BaseFragment {
 	

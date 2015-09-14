@@ -1,6 +1,6 @@
 package com.example.googleplay.fragment;
 
-import com.example.base.BaseFragment;
+import com.example.googleplay.base.BaseFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
