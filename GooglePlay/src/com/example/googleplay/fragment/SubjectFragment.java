@@ -1,28 +1,41 @@
 package com.example.googleplay.fragment;
 
-import com.example.googleplay.base.BaseFragment;
+import java.util.List;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.android.volley.Request.Method;
+import com.example.googleplay.R;
+import com.example.googleplay.adapter.SubjectInfoAdapter;
+import com.example.googleplay.base.BaseFragment;
+import com.example.googleplay.data.AppInfo;
+import com.example.googleplay.data.SubJectData;
+import com.example.googleplay.http.HttpHelper;
+import com.example.googleplay.http.NetWorkResponse;
+import com.example.googleplay.view.BaseListView;
 
 public class SubjectFragment extends BaseFragment {
+	private BaseListView baseListView;
 
 	@Override
 	protected int getLayoutId() {
-		return android.R.layout.simple_expandable_list_item_1;
+		return R.layout.homefragment_layout;
 	}
 
 	@Override
 	protected void initView(View view) {
-		((TextView)view).setText("SubjectFragment");
+		baseListView = (BaseListView) view.findViewById(R.id.listview);
 	}
 
 	@Override
 	protected void initData() {
-		
+		NetWorkResponse<List<SubJectData>> netWorkResponse = new NetWorkResponse<List<SubJectData>>(mProgressDialog, Method.GET,
+				HttpHelper.SUBJECT_URL, null, null) {
+
+			@Override
+			public void onSuccess(List<SubJectData> backData) {
+				baseListView.setAdapter(new SubjectInfoAdapter(getActivity(), backData));
+			}
+		};
 	}
 }

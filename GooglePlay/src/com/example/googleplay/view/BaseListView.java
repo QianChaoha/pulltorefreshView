@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-import com.example.mygoogleplay.R;
+import com.example.googleplay.R;
 
 public class BaseListView extends ListView {
 	

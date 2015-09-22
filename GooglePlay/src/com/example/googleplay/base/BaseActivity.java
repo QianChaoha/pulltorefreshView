@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.application.MyApplication;
-import com.example.googleplay.http.NetJsonRequest;
 import com.example.googleplay.util.SharePreference;
 
 public abstract class BaseActivity extends FragmentActivity  {

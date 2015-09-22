@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by QianChao on 2015/8/17.
@@ -46,6 +47,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         // 初始化Volley通讯
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         // 加载默认的ImageLoader
@@ -98,7 +100,7 @@ public class MyApplication extends Application {
             if (volleyError != null) {
                 volleyError.printStackTrace();
                 volleyError.toString();
-                System.out.println("```error" + volleyError.toString());
+                System.out.println("error" + volleyError.toString());
             }
         }
 
