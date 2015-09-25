@@ -18,7 +18,7 @@ public class SubjectFragment extends BaseFragment {
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.homefragment_layout;
+		return R.layout.baselistview;
 	}
 
 	@Override

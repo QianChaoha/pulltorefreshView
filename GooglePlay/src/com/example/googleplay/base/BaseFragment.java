@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.application.MyApplication;
 import com.example.googleplay.util.SharePreference;
@@ -27,13 +28,13 @@ public abstract class BaseFragment extends Fragment {
 	public MyApplication getMyApplication() {
 		return (MyApplication) getActivity().getApplication();
 	}
-//
-//	/**
-//	 * 获取请求队列
-//	 */
-//	public RequestQueue getRequests() {
-//		return getMyApplication().getRequestQueue();
-//	}
+
+	/**
+	 * 获取请求队列
+	 */
+	public RequestQueue getRequests() {
+		return getMyApplication().getRequestQueue();
+	}
 
 	/**
 	 * 获取默认的图片加载器
@@ -130,5 +131,10 @@ public abstract class BaseFragment extends Fragment {
 
 	protected View getRootView() {
 		return mRootView;
+	}
+	@Override
+	public void onDestroy() {
+		getRequests().cancelAll(this);
+		super.onDestroy();
 	}
 }

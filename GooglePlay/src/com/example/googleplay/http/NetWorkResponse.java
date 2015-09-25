@@ -80,6 +80,7 @@ public abstract class NetWorkResponse<E> {
 	}
 
 	public void doStringRequest(int method, final String url, final Map<String, String> param, Response.ErrorListener errorListener) {
+		System.out.println("url"+url);
 		if (mProgressDialog!=null) {
 			mProgressDialog.show();
 		}
