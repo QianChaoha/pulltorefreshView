@@ -27,5 +27,6 @@
     <string name="dialog_content">确认要退出吗</string>
     <string name="ok">确定</string>
     <string name="cancle">取消</string>
+    <string name="load_more">加载中...</string>
 
 </resources>

@@ -2,11 +2,18 @@ package com.example.googleplay.base;
 
 import java.util.List;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.example.googleplay.application.MyApplication;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
+/**
+ * T list中的实体类
+ * E ViewHolder
+ *@author qianchao
+ */
 public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	protected List<T> lists;
 	protected Context context;
@@ -15,9 +22,18 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	 * @param backResult
 	 * @param context
 	 */
-	public BaseCommenAdapter( Context context,List<T> lists) {
+	public BaseCommenAdapter(Context context, List<T> lists) {
 		this.lists = lists;
 		this.context = context;
+	}
+
+	/**
+	 * 获取ImgLoader
+	 * 
+	 * @return
+	 */
+	protected ImageLoader getImageLoader() {
+		return ((MyApplication) context.getApplicationContext()).getDefaultImgLoader();
 	}
 
 	@Override
@@ -40,6 +56,7 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		E e = null;
@@ -55,7 +72,6 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 		initData(e, data, position);
 		return convertView;
 	}
-
 	/**
 	 * 获取一个ViewHolder
 	 * 
@@ -73,7 +89,7 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	protected abstract void initViewByHolder(E holder, View convertView);
 
 	/**
-	 * 用list中的数据完成对ViewHolder成员的初始化操作
+	 * 用list中的实体类完成对ViewHolder成员的初始化操作
 	 * 
 	 * @param baseViewHolder
 	 * @param lists
@@ -87,4 +103,5 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	 * @return
 	 */
 	protected abstract int getLayoutId();
+
 }

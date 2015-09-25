@@ -1,23 +1,15 @@
 package com.example.googleplay.http;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
@@ -30,9 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.googleplay.R;
 import com.example.googleplay.application.MyApplication;
-import com.example.googleplay.base.BaseData;
 import com.example.googleplay.util.FileUtils;
-import com.example.googleplay.util.Md5Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,14 +41,16 @@ public abstract class NetWorkResponse<E> {
 	 * @param param
 	 * @param errorListener
 	 */
-	public NetWorkResponse(int method, ProgressDialog mProgressDialog, final String url, JSONObject param, Response.ErrorListener errorListener) {
-		this.mProgressDialog = mProgressDialog;
-		this.mRequestQueue = ((MyApplication) mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
-		doJsonRequest(method, url, param, errorListener);
-	}
+	// public NetWorkResponse(int method, ProgressDialog mProgressDialog, final
+	// String url, JSONObject param, Response.ErrorListener errorListener) {
+	// this.mProgressDialog = mProgressDialog;
+	// this.mRequestQueue = ((MyApplication)
+	// mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
+	// doJsonRequest(method, url, param, errorListener);
+	// }
 
 	/**
-	 * 发出一个请求,返回String
+	 * 发出一个请求,返回String,使用自定义的errorListener
 	 * 
 	 * @param mProgressDialog
 	 * @param method
@@ -66,15 +58,31 @@ public abstract class NetWorkResponse<E> {
 	 * @param param
 	 * @param errorListener
 	 */
-	public NetWorkResponse(ProgressDialog mProgressDialog,  int method,final String url, Map<String, String> param,
+	public NetWorkResponse(ProgressDialog mProgressDialog, int method, final String url, Map<String, String> param,
 			Response.ErrorListener errorListener) {
 		this.mProgressDialog = mProgressDialog;
 		this.mRequestQueue = ((MyApplication) mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
 		doStringRequest(method, url, param, errorListener);
 	}
 
+	/**
+	 * 发出一个请求,返回String,使用默认的的errorListener
+	 * 
+	 * @param mProgressDialog
+	 * @param method
+	 * @param url
+	 * @param param
+	 */
+	public NetWorkResponse(ProgressDialog mProgressDialog, int method, final String url, Map<String, String> param) {
+		this.mProgressDialog = mProgressDialog;
+		this.mRequestQueue = ((MyApplication) mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
+		doStringRequest(method, url, param, null);
+	}
+
 	public void doStringRequest(int method, final String url, final Map<String, String> param, Response.ErrorListener errorListener) {
-		mProgressDialog.show();
+		if (mProgressDialog!=null) {
+			mProgressDialog.show();
+		}
 		if (errorListener == null) {
 			errorListener = new Response.ErrorListener() {
 
@@ -115,7 +123,9 @@ public abstract class NetWorkResponse<E> {
 	}
 
 	public void doJsonRequest(int method, final String url, JSONObject param, Response.ErrorListener errorListener) {
-		mProgressDialog.show();
+		if (mProgressDialog!=null) {
+			mProgressDialog.show();
+		}
 		if (errorListener == null) {
 			errorListener = new Response.ErrorListener() {
 
@@ -157,18 +167,20 @@ public abstract class NetWorkResponse<E> {
 	 *            服务器返沪结果
 	 */
 	private void successResponce(final String url, String backResult) {
-		mProgressDialog.dismiss();
-		System.out.println("response" + backResult);
+		if (mProgressDialog!=null) {
+			mProgressDialog.dismiss();
+		}
+		System.out.println(backResult);
 		if (!TextUtils.isEmpty(backResult)) {
 			// 本地缓存json数据
-			saveLocal(backResult, url);
+			FileUtils.saveLocal(backResult, url, mProgressDialog.getContext());
 		}
 		try {
 			E e = createClassFromJson(backResult);
 			onSuccess(e);
 		} catch (Exception e) {
 			if (e != null) {
-				System.out.println(e.getMessage() + "json解析错误");
+				System.out.println(e.getMessage() + "程序异常");
 			}
 		}
 	}
@@ -180,20 +192,35 @@ public abstract class NetWorkResponse<E> {
 	 * @param volleyError
 	 */
 	private void errorResponce(final String url, VolleyError volleyError) {
-		mProgressDialog.dismiss();
+		if (mProgressDialog!=null) {
+			mProgressDialog.dismiss();
+		}
 		if (volleyError instanceof NetworkError) {
 			Toast.makeText(mProgressDialog.getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
 		} else if (volleyError != null) {
-			System.out.println(volleyError.getMessage() + "");
+			System.out.println(volleyError.getMessage() + "服务器异常");
 		}
 		// 加载本地数据
 		System.out.println("加载缓存数据");
-		String json = loadLocal(url);
+		String json = FileUtils.loadLocal(url, mProgressDialog.getContext());
 		if (!TextUtils.isEmpty(json)) {
-			E e = createClassFromJson(json);
-			onSuccess(e);
+			try {
+				E e = createClassFromJson(json);
+				onSuccess(e);
+			} catch (Exception e) {
+				if (e != null) {
+					System.out.println(e.getMessage() + "json解析错误");
+				}
+			}
 		}
 	}
+
+	/**
+	 * 成功获取服务器返回数据
+	 * 
+	 * @param backData
+	 */
+	public abstract void onSuccess(E backData);
 
 	/**
 	 * 将字符串解析成实体类
@@ -201,81 +228,13 @@ public abstract class NetWorkResponse<E> {
 	 * @param jsonString
 	 * @return
 	 */
-	private E createClassFromJson(String jsonString) {
+	public E createClassFromJson(String jsonString) {
 		return (E) mGson.fromJson(jsonString, getEType());
 	}
 
-	/**
-	 * 加载本地数据
-	 * 
-	 * @param url
-	 * @return
-	 */
-	private String loadLocal(String url) {
-		File dir = FileUtils.getCacheDir(mProgressDialog.getContext());// 获取缓存所在的文件夹
-		File file = new File(dir, Md5Utils.md5(url));
-		FileReader fr = null;
-		BufferedReader br = null;
-		try {
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
-			String str = null;
-			StringBuilder builder = new StringBuilder();
-			while ((str = br.readLine()) != null) {
-				builder.append(str);
-			}
-			return builder.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (fr != null) {
-				try {
-					fr.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	/**
-	 * 将数据存储在本地
-	 * 
-	 * @param json
-	 * @param url
-	 */
-	private void saveLocal(String json, String url) {
-		BufferedWriter bw = null;
-		try {
-			File dir = FileUtils.getCacheDir(mProgressDialog.getContext());
-			// 在第一行写一个过期时间
-			File file = new File(dir, Md5Utils.md5(url)); // /mnt/sdcard/googlePlay/cache/home_0
-			FileWriter fw = new FileWriter(file);
-			bw = new BufferedWriter(fw);
-			bw.write(json);// 把整个json文件保存起来
-			bw.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (bw != null) {
-					bw.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public Type getEType() {
+		System.out.println("this.getClass()" + this.getClass());
+		System.out.println(" this.getClass().getGenericSuperclass()" + this.getClass().getGenericSuperclass());
 		ParameterizedType pType = (ParameterizedType) this.getClass().getGenericSuperclass();
 		Type[] types = pType.getActualTypeArguments();
 		if (types.length > 1) {
@@ -285,10 +244,4 @@ public abstract class NetWorkResponse<E> {
 		}
 	}
 
-	/**
-	 * 请求服务器成功的回调方法
-	 * 
-	 * @param backData
-	 */
-	public abstract void onSuccess(E backData);
 }

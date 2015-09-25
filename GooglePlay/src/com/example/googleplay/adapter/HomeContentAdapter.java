@@ -1,20 +1,20 @@
 package com.example.googleplay.adapter;
 
 import java.util.List;
+
 import android.content.Context;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.example.googleplay.R;
-import com.example.googleplay.application.MyApplication;
-import com.example.googleplay.base.BaseCommenAdapter;
+import com.example.googleplay.base.BaseAdapterWithLoadMore;
 import com.example.googleplay.data.AppInfo;
+import com.example.googleplay.data.HomeViewHolder;
 import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.view.CommenNetImageView;
 
-public class HomeContentAdapter extends BaseCommenAdapter<AppInfo, HomeViewHolder> {
-	
+public abstract class HomeContentAdapter extends BaseAdapterWithLoadMore<AppInfo, HomeViewHolder> {
 
 	/**
 	 * @param context
@@ -36,7 +36,6 @@ public class HomeContentAdapter extends BaseCommenAdapter<AppInfo, HomeViewHolde
 		holder.item_size = (TextView) convertView.findViewById(R.id.item_size);
 		holder.item_bottom = (TextView) convertView.findViewById(R.id.item_bottom);
 		holder.item_rating = (RatingBar) convertView.findViewById(R.id.item_rating);
-
 	}
 
 	@Override
@@ -49,20 +48,11 @@ public class HomeContentAdapter extends BaseCommenAdapter<AppInfo, HomeViewHolde
 		holder.item_rating.setRating(stars); // 设置ratingBar的值
 		String iconUrl = data.getIconUrl(); // http://127.0.0.1:8090/image?name=app/com.youyuan.yyhl/icon.jpg
 		// 显示图片的控件
-		holder.item_icon.setImageUrl(HttpHelper.URL + "image?name=" + iconUrl,
-				((MyApplication) context.getApplicationContext()).getDefaultImgLoader());
-
+		holder.item_icon.setImageUrl(HttpHelper.URL + "image?name=" + iconUrl, getImageLoader());
 	}
 
 	@Override
 	protected int getLayoutId() {
 		return R.layout.item_app;
 	}
-
-}
-
-class HomeViewHolder {
-	CommenNetImageView item_icon;
-	TextView item_title, item_size, item_bottom;
-	RatingBar item_rating;
 }

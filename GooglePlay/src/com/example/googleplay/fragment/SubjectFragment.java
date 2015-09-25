@@ -8,7 +8,6 @@ import com.android.volley.Request.Method;
 import com.example.googleplay.R;
 import com.example.googleplay.adapter.SubjectInfoAdapter;
 import com.example.googleplay.base.BaseFragment;
-import com.example.googleplay.data.AppInfo;
 import com.example.googleplay.data.SubJectData;
 import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.http.NetWorkResponse;

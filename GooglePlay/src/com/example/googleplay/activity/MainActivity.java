@@ -1,4 +1,4 @@
-package com.example.googleplay;
+package com.example.googleplay.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.googleplay.R;
 import com.example.googleplay.adapter.MainActivityAdapter;
 
 public class MainActivity extends ActionBarActivity implements

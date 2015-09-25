@@ -1,4 +1,6 @@
-package com.example.googleplay;
+package com.example.googleplay.activity;
+
+import com.example.googleplay.R;
 
 import android.app.ActionBar;
 import android.os.Bundle;
