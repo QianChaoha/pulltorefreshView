@@ -3,11 +3,9 @@ package com.example.googleplay.http;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
-import org.json.JSONException;
-import org.json.JSONObject;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -18,36 +16,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.googleplay.R;
-import com.example.googleplay.application.MyApplication;
 import com.example.googleplay.util.FileUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public abstract class NetWorkResponse<E> {
-
-	private Gson mGson = new GsonBuilder().disableHtmlEscaping().create();
 	private ProgressDialog mProgressDialog;
-	private RequestQueue mRequestQueue;
-
-	/**
-	 * 发出一个请求,返回JsonObject
-	 * 
-	 * @param mProgressDialog
-	 * @param method
-	 * @param url
-	 * @param param
-	 * @param errorListener
-	 */
-	// public NetWorkResponse(int method, ProgressDialog mProgressDialog, final
-	// String url, JSONObject param, Response.ErrorListener errorListener) {
-	// this.mProgressDialog = mProgressDialog;
-	// this.mRequestQueue = ((MyApplication)
-	// mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
-	// doJsonRequest(method, url, param, errorListener);
-	// }
+	private Gson mGson = new GsonBuilder().disableHtmlEscaping().create();
 
 	/**
 	 * 发出一个请求,返回String,使用自定义的errorListener
@@ -58,11 +35,10 @@ public abstract class NetWorkResponse<E> {
 	 * @param param
 	 * @param errorListener
 	 */
-	public NetWorkResponse(ProgressDialog mProgressDialog, int method, final String url, Map<String, String> param,
+	public NetWorkResponse(Context context, RequestQueue requestQueue, int method, final String url, Map<String, String> param,
 			Response.ErrorListener errorListener) {
-		this.mProgressDialog = mProgressDialog;
-		this.mRequestQueue = ((MyApplication) mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
-		doStringRequest(method, url, param, errorListener);
+		initProgressDialog(context);
+		doStringRequest(context, method, url, param, errorListener);
 	}
 
 	/**
@@ -73,14 +49,14 @@ public abstract class NetWorkResponse<E> {
 	 * @param url
 	 * @param param
 	 */
-	public NetWorkResponse(ProgressDialog mProgressDialog, int method, final String url, Map<String, String> param) {
-		this.mProgressDialog = mProgressDialog;
-		this.mRequestQueue = ((MyApplication) mProgressDialog.getContext().getApplicationContext()).getRequestQueue();
-		doStringRequest(method, url, param, null);
+	public NetWorkResponse(Context context, int method, final String url, Map<String, String> param) {
+		initProgressDialog(context);
+		doStringRequest(context, method, url, param, null);
 	}
 
-	public void doStringRequest(int method, final String url, final Map<String, String> param, Response.ErrorListener errorListener) {
-		System.out.println("url"+url);
+	public void doStringRequest(final Context context, int method, final String url, final Map<String, String> param,
+			Response.ErrorListener errorListener) {
+		System.out.println("url" + url);
 		if (mProgressDialog!=null) {
 			mProgressDialog.show();
 		}
@@ -89,7 +65,7 @@ public abstract class NetWorkResponse<E> {
 
 				@Override
 				public void onErrorResponse(VolleyError volleyError) {
-					errorResponce(url, volleyError);
+					errorResponce(context, url, volleyError);
 				}
 
 			};
@@ -98,7 +74,7 @@ public abstract class NetWorkResponse<E> {
 
 			@Override
 			public void onResponse(String backResult) {
-				successResponce(url, backResult);
+				successResponce(context, url, backResult);
 			}
 
 		}, errorListener) {
@@ -120,44 +96,51 @@ public abstract class NetWorkResponse<E> {
 				return super.getParams();
 			}
 		};
-		mRequestQueue.add(request);
+		request.setTag(context);
+		NetRequest.getInstance(context.getApplicationContext()).getRequestQueue().add(request);
 	}
 
-	public void doJsonRequest(int method, final String url, JSONObject param, Response.ErrorListener errorListener) {
-		if (mProgressDialog!=null) {
-			mProgressDialog.show();
-		}
-		if (errorListener == null) {
-			errorListener = new Response.ErrorListener() {
-
-				@Override
-				public void onErrorResponse(VolleyError volleyError) {
-					errorResponce(url, volleyError);
-				}
-			};
-		}
-		JsonObjectRequest request = new JsonObjectRequest(method, url, param, new Response.Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject response) {
-				successResponce(url, response.toString());
-			}
-		}, errorListener) {
-			@Override
-			protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-				try {
-					JSONObject jsonObject = new JSONObject(new String(response.data, "utf-8"));
-					return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
-				} catch (UnsupportedEncodingException e) {
-					return Response.error(new ParseError(e));
-				} catch (JSONException e) {
-					return Response.error(new ParseError(e));
-				}
-
-			}
-		};
-		mRequestQueue.add(request);
-	}
+	// public void doJsonRequest(final ProgressDialog mProgressDialog, int
+	// method, final String url, JSONObject param,
+	// Response.ErrorListener errorListener) {
+	// if (mProgressDialog != null) {
+	// mProgressDialog.show();
+	// }
+	// if (errorListener == null) {
+	// errorListener = new Response.ErrorListener() {
+	//
+	// @Override
+	// public void onErrorResponse(VolleyError volleyError) {
+	// errorResponce(con, url, volleyError);
+	// }
+	// };
+	// }
+	// JsonObjectRequest request = new JsonObjectRequest(method, url, param, new
+	// Response.Listener<JSONObject>() {
+	//
+	// @Override
+	// public void onResponse(JSONObject response) {
+	// successResponce(mProgressDialog, url, response.toString());
+	// }
+	// }, errorListener) {
+	// @Override
+	// protected Response<JSONObject> parseNetworkResponse(NetworkResponse
+	// response) {
+	// try {
+	// JSONObject jsonObject = new JSONObject(new String(response.data,
+	// "utf-8"));
+	// return Response.success(jsonObject,
+	// HttpHeaderParser.parseCacheHeaders(response));
+	// } catch (UnsupportedEncodingException e) {
+	// return Response.error(new ParseError(e));
+	// } catch (JSONException e) {
+	// return Response.error(new ParseError(e));
+	// }
+	//
+	// }
+	// };
+	// NetRequest.getInstance(context.getApplicationContext()).getRequestQueue().add(request);
+	// }
 
 	/**
 	 * 将服务器返回的数据缓存在本地并解析
@@ -167,14 +150,14 @@ public abstract class NetWorkResponse<E> {
 	 * @param backResult
 	 *            服务器返沪结果
 	 */
-	private void successResponce(final String url, String backResult) {
-		if (mProgressDialog!=null) {
+	private void successResponce(Context context, final String url, String backResult) {
+		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
 		System.out.println(backResult);
 		if (!TextUtils.isEmpty(backResult)) {
 			// 本地缓存json数据
-			FileUtils.saveLocal(backResult, url, mProgressDialog.getContext());
+			FileUtils.saveLocal(backResult, url, context);
 		}
 		try {
 			E e = createClassFromJson(backResult);
@@ -192,18 +175,18 @@ public abstract class NetWorkResponse<E> {
 	 * @param url
 	 * @param volleyError
 	 */
-	private void errorResponce(final String url, VolleyError volleyError) {
-		if (mProgressDialog!=null) {
+	private void errorResponce(Context context, final String url, VolleyError volleyError) {
+		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
 		if (volleyError instanceof NetworkError) {
-			Toast.makeText(mProgressDialog.getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
 		} else if (volleyError != null) {
 			System.out.println(volleyError.getMessage() + "服务器异常");
 		}
 		// 加载本地数据
 		System.out.println("加载缓存数据");
-		String json = FileUtils.loadLocal(url, mProgressDialog.getContext());
+		String json = FileUtils.loadLocal(url, context);
 		if (!TextUtils.isEmpty(json)) {
 			try {
 				E e = createClassFromJson(json);
@@ -214,6 +197,20 @@ public abstract class NetWorkResponse<E> {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 初始化ProgressDialog
+	 * 
+	 * @param context
+	 */
+	public void initProgressDialog(Context context) {
+		mProgressDialog = new ProgressDialog(context);
+		mProgressDialog.setMessage("获取数据中...");
+	}
+
+	public ProgressDialog getProgressDialog() {
+		return mProgressDialog;
 	}
 
 	/**
@@ -234,8 +231,6 @@ public abstract class NetWorkResponse<E> {
 	}
 
 	public Type getEType() {
-		System.out.println("this.getClass()" + this.getClass());
-		System.out.println(" this.getClass().getGenericSuperclass()" + this.getClass().getGenericSuperclass());
 		ParameterizedType pType = (ParameterizedType) this.getClass().getGenericSuperclass();
 		Type[] types = pType.getActualTypeArguments();
 		if (types.length > 1) {

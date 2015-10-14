@@ -4,5 +4,7 @@
     <color name="indicatorcolor">#FF0084FF</color>
     <color name="item_divider">#ffd7d7d7</color>
     <color name="txt_title">#333333</color>
-
+      <color name="menu_bg_press">#cecece</color>
+      <color name="menu_bg_normal">#f0f1f3</color>
+      <color name="detail_screen_bg">#adadad</color>
 </resources>

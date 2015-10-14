@@ -2,17 +2,15 @@ package com.example.googleplay.base;
 
 import java.util.List;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.example.googleplay.application.MyApplication;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
 /**
- * T list中的实体类
- * E ViewHolder
- *@author qianchao
+ * T list中的实体类 E ViewHolder
+ * 
+ * @author qianchao
  */
 public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	protected List<T> lists;
@@ -25,15 +23,6 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 	public BaseCommenAdapter(Context context, List<T> lists) {
 		this.lists = lists;
 		this.context = context;
-	}
-
-	/**
-	 * 获取ImgLoader
-	 * 
-	 * @return
-	 */
-	protected ImageLoader getImageLoader() {
-		return ((MyApplication) context.getApplicationContext()).getDefaultImgLoader();
 	}
 
 	@Override
@@ -72,6 +61,7 @@ public abstract class BaseCommenAdapter<T, E> extends BaseAdapter {
 		initData(e, data, position);
 		return convertView;
 	}
+
 	/**
 	 * 获取一个ViewHolder
 	 * 

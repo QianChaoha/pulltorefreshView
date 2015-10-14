@@ -41,8 +41,6 @@ public class MoreHolder {
 	 * @param data
 	 */
 	public void setData(int data) {
-		System.out.println("rl_more_error==null"+rl_more_error==null);
-		System.out.println("rl_more_loading==null"+rl_more_loading==null);
 		rl_more_error.setVisibility(data == LOAD_ERROR ? View.VISIBLE : View.GONE);
 		rl_more_loading.setVisibility(data == HAS_MORE ? View.VISIBLE : View.GONE);
 	}

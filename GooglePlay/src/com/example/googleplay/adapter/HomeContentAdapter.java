@@ -7,18 +7,26 @@ import android.text.format.Formatter;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.R;
+import com.example.googleplay.base.AdapterLoadMoreWithAnim;
 import com.example.googleplay.base.BaseAdapterWithLoadMore;
 import com.example.googleplay.data.AppInfo;
 import com.example.googleplay.data.HomeViewHolder;
 import com.example.googleplay.http.HttpHelper;
+import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.view.CommenNetImageView;
 
-public abstract class HomeContentAdapter extends BaseAdapterWithLoadMore<AppInfo, HomeViewHolder> {
+public abstract class HomeContentAdapter extends AdapterLoadMoreWithAnim<AppInfo, HomeViewHolder> {
+
 
 	/**
 	 * @param context
 	 * @param lists
+	 * @param imageLoader
+	 * @param requestQueue
 	 */
 	public HomeContentAdapter(Context context, List<AppInfo> lists) {
 		super(context, lists);
@@ -48,7 +56,7 @@ public abstract class HomeContentAdapter extends BaseAdapterWithLoadMore<AppInfo
 		holder.item_rating.setRating(stars); // 设置ratingBar的值
 		String iconUrl = data.getIconUrl(); // http://127.0.0.1:8090/image?name=app/com.youyuan.yyhl/icon.jpg
 		// 显示图片的控件
-		holder.item_icon.setImageUrl(HttpHelper.URL + "image?name=" + iconUrl, getImageLoader());
+		holder.item_icon.setImageUrl(HttpHelper.URL + "image?name=" + iconUrl, NetRequest.getInstance(context).getImageLoader());
 	}
 
 	@Override

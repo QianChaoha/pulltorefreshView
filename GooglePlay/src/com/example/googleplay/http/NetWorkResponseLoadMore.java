@@ -11,13 +11,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.example.googleplay.R;
-import com.example.googleplay.application.MyApplication;
 import com.example.googleplay.util.FileUtils;
 
 public abstract class NetWorkResponseLoadMore {
@@ -37,7 +35,6 @@ public abstract class NetWorkResponseLoadMore {
 			Response.ErrorListener errorListener) {
 		System.out.println("url" + url);
 		this.context = context;
-		RequestQueue mRequestQueue = ((MyApplication) context.getApplicationContext()).getRequestQueue();
 		if (errorListener == null) {
 			errorListener = new Response.ErrorListener() {
 
@@ -73,7 +70,9 @@ public abstract class NetWorkResponseLoadMore {
 				return super.getParams();
 			}
 		};
-		mRequestQueue.add(request);
+		request.setTag(context);
+
+		NetRequest.getInstance(context.getApplicationContext()).getRequestQueue().add(request);
 	}
 
 	private void successResponse(final Context context, final String url, String backResult) {

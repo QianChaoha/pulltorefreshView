@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.view.CommenNetImageView;
 
 import android.content.Context;
@@ -41,8 +42,8 @@ public class HomePageAdapter extends PagerAdapter {
 	public Object instantiateItem(ViewGroup container, int position) {
 		CommenNetImageView netImageView = new CommenNetImageView(context);
 		netImageView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-		netImageView.setScaleType(ScaleType.CENTER_CROP);
-		netImageView.setImageUrl(pictures.get(position), imageLoader);
+		netImageView.setScaleType(ScaleType.FIT_XY);
+		netImageView.setImageUrl(HttpHelper.HOME_PICTURE_URL+pictures.get(position), imageLoader);
 		commenNetImageViews.add(netImageView);
 		((ViewPager) container).addView(netImageView);
 		return netImageView;

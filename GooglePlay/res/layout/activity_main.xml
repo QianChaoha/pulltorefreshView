@@ -21,11 +21,12 @@
             android:textColor="#000" />
     </android.support.v4.view.ViewPager>
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/menuView"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="@android:color/white" >
-    </RelativeLayout>
+    </FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

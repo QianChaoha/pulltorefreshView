@@ -3,6 +3,8 @@
  */
 package com.example.googleplay.view;
 
+import com.example.googleplay.base.BaseListView;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AbsListView;

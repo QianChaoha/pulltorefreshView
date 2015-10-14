@@ -2,28 +2,34 @@ package com.example.googleplay.base;
 
 import java.util.List;
 import java.util.Map;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.http.NetWorkResponseLoadMore;
 import com.example.googleplay.util.MoreHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * 具有加载更多的Adapter</br> T list中的实体类 ,E ViewHolder,Q服务器返回数据，需要从中获取list<T>用来加载更多
+ * 具有加载更多的Adapter</br> T list中的实体类 ,E ViewHolder,需要从中获取list<T>用来加载更多
  * 
  * @author qianchao
  */
 public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T, E> {
 
-	private final int DEFAULT_ITEM = 0;
-	private final int MORE_ITEM = 1;
-	private Gson mGson = new GsonBuilder().disableHtmlEscaping().create();
+	protected final int DEFAULT_ITEM = 0;
+	protected final int MORE_ITEM = 1;
+	protected Gson mGson = new GsonBuilder().disableHtmlEscaping().create();
 
 	/**
 	 * @param context
 	 * @param lists
+	 * @param imageLoader
 	 */
 	public BaseAdapterWithLoadMore(Context context, List<T> lists) {
 		super(context, lists);
@@ -70,7 +76,6 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 		switch (getItemViewType(position)) {// 判断当前条目时什么类型
 		case MORE_ITEM:
 			if (convertView == null) {
-				System.out.println("null");
 				moreHolder = new MoreHolder(context, this);
 				convertView = moreHolder.getContentView();
 				convertView.setTag(moreHolder);
@@ -100,15 +105,15 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 
 	/**
 	 * 加载更多数据
-	 * @param moreHolder 
+	 * 
+	 * @param moreHolder
 	 */
 	public void loadMore(final MoreHolder moreHolder) {
-		NetWorkResponseLoadMore loadMore = new NetWorkResponseLoadMore(context, getMethod(), getUrl(), getParam(), null) {
+		NetWorkResponseLoadMore loadMore = new NetWorkResponseLoadMore(context, getMethod(),getUrl(), getParam(), null) {
 
 			@Override
 			public void onSuccess(String backData) {
-				System.out.println("moreHolder==="+(moreHolder!=null));
-				List<T> moreData = onLoadMore(mGson,backData);
+				List<T> moreData = onLoadMore(mGson, backData);
 				if (moreData == null) {
 					moreHolder.setData(MoreHolder.LOAD_ERROR);
 				} else if (moreData.size() == 0) {
@@ -154,6 +159,6 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 	 * @param backData
 	 * @return
 	 */
-	protected abstract List<T> onLoadMore(Gson mGson,String data);
+	protected abstract List<T> onLoadMore(Gson mGson, String data);
 
 }

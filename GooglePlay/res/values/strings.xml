@@ -28,5 +28,16 @@
     <string name="ok">确定</string>
     <string name="cancle">取消</string>
     <string name="load_more">加载中...</string>
-
+	<string name="tv_user_name">未知</string>
+	<string name="tv_user_email">unknow@itcast.com</string>
+	<string name="tv_home">首页</string>
+	<string name="tv_setting">设置</string>
+	<string name="tv_theme">主题</string>
+	<string name="tv_scans">安装包管理</string>
+	<string name="tv_feedback">反馈</string>
+	<string name="tv_updates">检查更新</string>
+	<string name="tv_about">关于</string>
+	<string name="tv_exit">退出</string>
+	<string name="app_detail_introduction">简介</string>
+    
 </resources>

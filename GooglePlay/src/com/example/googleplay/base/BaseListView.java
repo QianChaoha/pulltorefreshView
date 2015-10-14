@@ -1,4 +1,4 @@
-package com.example.googleplay.view;
+package com.example.googleplay.base;
 
 import android.content.Context;
 import android.util.AttributeSet;
