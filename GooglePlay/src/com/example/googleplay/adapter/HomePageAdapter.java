@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.http.HttpHelper;
+import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.view.CommenNetImageView;
 
 import android.content.Context;
@@ -19,13 +20,11 @@ import android.widget.LinearLayout.LayoutParams;
 public class HomePageAdapter extends PagerAdapter {
 	private Context context;
 	private List<String> pictures;
-	private ImageLoader imageLoader;
 	private List<CommenNetImageView> commenNetImageViews=new LinkedList<CommenNetImageView>();
 
-	public HomePageAdapter(Context context, List<String> pictures, ImageLoader imageLoader) {
+	public HomePageAdapter(Context context, List<String> pictures) {
 		this.context = context;
 		this.pictures = pictures;
-		this.imageLoader = imageLoader;
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class HomePageAdapter extends PagerAdapter {
 		CommenNetImageView netImageView = new CommenNetImageView(context);
 		netImageView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 		netImageView.setScaleType(ScaleType.FIT_XY);
-		netImageView.setImageUrl(HttpHelper.HOME_PICTURE_URL+pictures.get(position), imageLoader);
+		netImageView.setImageUrl(HttpHelper.HOME_PICTURE_URL+pictures.get(position), NetRequest.getInstance(context.getApplicationContext()).getImageLoader());
 		commenNetImageViews.add(netImageView);
 		((ViewPager) container).addView(netImageView);
 		return netImageView;

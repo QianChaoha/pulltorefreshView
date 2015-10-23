@@ -7,16 +7,16 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.example.googleplay.R;
 import com.example.googleplay.util.FileUtils;
+import com.example.volley.AuthFailureError;
+import com.example.volley.NetworkError;
+import com.example.volley.NetworkResponse;
+import com.example.volley.ParseError;
+import com.example.volley.Response;
+import com.example.volley.VolleyError;
 
 public abstract class NetWorkResponseLoadMore {
 	private Context context;
@@ -70,7 +70,7 @@ public abstract class NetWorkResponseLoadMore {
 				return super.getParams();
 			}
 		};
-		request.setTag(context);
+		request.setTag(NetRequest.TAG);
 
 		NetRequest.getInstance(context.getApplicationContext()).getRequestQueue().add(request);
 	}

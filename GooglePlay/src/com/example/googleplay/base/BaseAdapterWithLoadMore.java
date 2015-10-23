@@ -7,9 +7,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.http.NetWorkResponseLoadMore;
 import com.example.googleplay.util.MoreHolder;
 import com.google.gson.Gson;

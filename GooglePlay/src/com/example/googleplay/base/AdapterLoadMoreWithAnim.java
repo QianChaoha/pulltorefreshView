@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.util.MoreHolder;
 
 /**

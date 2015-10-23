@@ -1,6 +1,7 @@
 package com.example.googleplay.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -105,10 +106,5 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener {
 	@Override
 	protected void initData() {
 		
-	}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		mainActivityAdapter.getHandler().removeMessages(0);
 	}
 }

@@ -8,11 +8,8 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.googleplay.R;
 import com.example.googleplay.base.AdapterLoadMoreWithAnim;
-import com.example.googleplay.base.BaseAdapterWithLoadMore;
 import com.example.googleplay.data.AppInfo;
 import com.example.googleplay.data.HomeViewHolder;
 import com.example.googleplay.http.HttpHelper;

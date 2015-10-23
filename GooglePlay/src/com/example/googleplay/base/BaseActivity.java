@@ -8,7 +8,7 @@ import com.example.googleplay.http.NetWorkResponse;
 import com.example.googleplay.util.SharePreference;
 
 public abstract class BaseActivity extends ActionBarActivity {
-	protected NetWorkResponse netWorkResponse;
+//	protected NetWorkResponse netWorkResponse;
 	/**
 	 * 配置文件操作
 	 */
@@ -74,9 +74,9 @@ public abstract class BaseActivity extends ActionBarActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (netWorkResponse != null && netWorkResponse.getProgressDialog() != null) {
-			netWorkResponse.getProgressDialog().dismiss();
-		}
-		NetRequest.getInstance(getApplicationContext()).getRequestQueue().cancelAll(this);
+//		if (netWorkResponse != null && netWorkResponse.getProgressDialog() != null) {
+//			netWorkResponse.getProgressDialog().dismiss();
+//		}
+		NetRequest.getInstance(getApplicationContext()).getRequestQueue().cancelAll(NetRequest.TAG);
 	}
 }

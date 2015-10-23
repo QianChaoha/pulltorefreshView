@@ -1,28 +1,14 @@
 package com.example.googleplay.base;
 
-import java.lang.reflect.Field;
-
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.LruCache;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-import com.example.googleplay.application.MyApplication;
-import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.http.NetWorkResponse;
 import com.example.googleplay.util.SharePreference;
 
@@ -116,6 +102,6 @@ public abstract class BaseFragment extends Fragment {
 		if (netWorkResponse != null && netWorkResponse.getProgressDialog() != null) {
 			netWorkResponse.getProgressDialog().dismiss();
 		}
-		NetRequest.getInstance(getActivity().getApplicationContext()).getRequestQueue().cancelAll(getActivity());
+//		NetRequest.getInstance(getActivity().getApplicationContext()).getRequestQueue().cancelAll(getActivity());
 	}
 }

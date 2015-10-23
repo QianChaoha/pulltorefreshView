@@ -31,13 +31,6 @@ public class MainActivityAdapter extends FragmentPagerAdapter {
 		return getFragment(arg0);
 	}
 
-	public Handler getHandler() {
-		if (mFragments.get(0) != null) {
-			((HomeFragment) mFragments.get(0)).getHandler();
-		}
-		return null;
-	}
-
 	/**
 	 * @param arg0
 	 * @return

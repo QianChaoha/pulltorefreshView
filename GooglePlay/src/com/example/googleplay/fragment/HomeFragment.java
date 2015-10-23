@@ -1,6 +1,5 @@
 package com.example.googleplay.fragment;
 
-import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.android.volley.Request.Method;
 import com.example.googleplay.R;
 import com.example.googleplay.activity.DetailActivity;
 import com.example.googleplay.adapter.HomeContentAdapter;
@@ -28,6 +26,7 @@ import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.http.NetWorkResponse;
 import com.example.googleplay.util.ScreenUtil;
+import com.example.volley.Request.Method;
 import com.google.gson.Gson;
 
 public class HomeFragment extends BaseFragment {
@@ -39,11 +38,18 @@ public class HomeFragment extends BaseFragment {
 	private List<String> pictures;
 	private HomeData homeData;
 	private List<AppInfo> appInfos;
+	private boolean clearList = true;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			viewPager.setCurrentItem((viewPager.getCurrentItem() + 1) % pictures.size());
 			handler.sendEmptyMessageDelayed(0, 3000);
 		};
+	};
+
+	public void onResume() {
+		super.onResume();
+		System.out.println("onResume");
+		clearList = true;
 	};
 
 	@Override
@@ -63,6 +69,7 @@ public class HomeFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				int newPosition = position - listview.getHeaderViewsCount();
 				if (newPosition >= 0 && appInfos != null && appInfos.size() > 0) {
+					clearList=false;
 					Intent intent = new Intent(getActivity(), DetailActivity.class);
 					intent.putExtra("packageName", appInfos.get(newPosition).getPackageName());
 					startActivity(intent);
@@ -131,7 +138,7 @@ public class HomeFragment extends BaseFragment {
 					}
 				});
 				// 增加图片轮询
-				viewPager.setAdapter(new HomePageAdapter(getActivity(), pictures, NetRequest.getInstance(getActivity()).getImageLoader()));
+				viewPager.setAdapter(new HomePageAdapter(getActivity(), pictures));
 				if (pictures != null && pictures.size() > 0) {
 					handler.sendEmptyMessageDelayed(0, 3000);
 				}
@@ -141,5 +148,17 @@ public class HomeFragment extends BaseFragment {
 
 	public Handler getHandler() {
 		return handler;
+	}
+
+	@Override
+	public void onStop() {
+		if (clearList) {
+			System.out.println("clearList");
+			handler.removeMessages(0);
+			//在viewpager滑动到游戏页面时，将homeFragment中appInfos清空,释放内存空间
+			appInfos.clear();
+			appInfos = null;
+		}
+		super.onStop();
 	}
 }

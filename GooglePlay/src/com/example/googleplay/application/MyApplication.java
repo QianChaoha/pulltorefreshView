@@ -6,14 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.NetworkError;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -46,7 +39,7 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		LeakCanary.install(this);
+//		LeakCanary.install(this);
 		// 初始化Volley通讯
 		// mRequestQueue = Volley.newRequestQueue(getApplicationContext());
 		// // 加载默认的ImageLoader
