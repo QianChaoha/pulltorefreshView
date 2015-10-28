@@ -161,14 +161,15 @@ public abstract class NetWorkResponse<E> {
 			// 本地缓存json数据
 			FileUtils.saveLocal(backResult, url, context);
 		}
+		E e =null;
 		try {
-			E e = createClassFromJson(backResult);
-			onSuccess(e);
-		} catch (Exception e) {
-			if (e != null) {
-				System.out.println(e.getMessage() + "程序异常");
+			e = createClassFromJson(backResult);
+		} catch (Exception exception) {
+			if (exception != null) {
+				System.out.println(exception.getMessage() + "程序异常");
 			}
 		}
+		onSuccess(e);
 	}
 
 	/**

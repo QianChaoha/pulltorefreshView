@@ -18,11 +18,14 @@ public class AppInfo {
 	private String author;
 	private List<String> screen;
 	
-	private List<String> safeUrl;
-	private List<String> safeDesUrl;
-	private List<String> safeDes;
-	private List<Integer> safeDesColor; 
+	public List<Safe> safe;
 	
+	public class Safe{
+		public String safeUrl;
+		public String safeDesUrl;
+		public String safeDes;
+		public String safeDesColor;
+	}
 	public String getDownloadNum() {
 		return downloadNum;
 	}
@@ -63,37 +66,6 @@ public class AppInfo {
 		this.screen = screen;
 	}
 
-	public List<String> getSafeUrl() {
-		return safeUrl;
-	}
-
-	public void setSafeUrl(List<String> safeUrl) {
-		this.safeUrl = safeUrl;
-	}
-
-	public List<String> getSafeDesUrl() {
-		return safeDesUrl;
-	}
-
-	public void setSafeDesUrl(List<String> safeDesUrl) {
-		this.safeDesUrl = safeDesUrl;
-	}
-
-	public List<String> getSafeDes() {
-		return safeDes;
-	}
-
-	public void setSafeDes(List<String> safeDes) {
-		this.safeDes = safeDes;
-	}
-
-	public List<Integer> getSafeDesColor() {
-		return safeDesColor;
-	}
-
-	public void setSafeDesColor(List<Integer> safeDesColor) {
-		this.safeDesColor = safeDesColor;
-	}
 
 	public String getDes() {
 		return des;

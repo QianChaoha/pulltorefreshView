@@ -37,21 +37,29 @@
                 android:layout_below="@+id/detail_info"
                 android:background="@drawable/list_item_bg_normal" />
 
-            <HorizontalScrollView
-                android:id="@+id/detail_screen"
+            <com.example.googleplay.view.MyHorizontalScrollView
+                android:id="@+id/detail_screen_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/detail_safe"
                 android:background="@color/detail_screen_bg"
-                android:fillViewport="true"
                 android:padding="5dp"
-                android:scrollbars="none" />
+                android:scrollbars="none" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="3dp" >
+                </LinearLayout>
+            </com.example.googleplay.view.MyHorizontalScrollView>
 
             <FrameLayout
                 android:id="@+id/detail_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detail_screen"
+                android:layout_below="@id/detail_screen_horizontal"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/list_item_bg_normal" />
