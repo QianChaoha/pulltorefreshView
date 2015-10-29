@@ -4,9 +4,11 @@ import java.util.List;
 
 import android.text.TextUtils;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import com.android.volley.toolbox.StringRequest;
 import com.example.googleplay.R;
+import com.example.googleplay.activity.view.DetailDesHolder;
 import com.example.googleplay.activity.view.DetailInfoHolder;
 import com.example.googleplay.activity.view.DetailSafeHolder;
 import com.example.googleplay.adapter.HorizontalScrollViewAdapter;
@@ -19,9 +21,11 @@ import com.example.volley.Request.Method;
 import com.example.volley.RequestQueue;
 
 public class DetailActivity extends BaseActivity {
-	private FrameLayout bottom_layout, detail_info, detail_safe, detail_des;
+	private FrameLayout detail_info, detail_safe, detail_des;
+	private ScrollView scrollView;
 	private DetailInfoHolder detailInfoView;
 	private DetailSafeHolder detailSafeHolder;
+	private DetailDesHolder desHolder;
 	private int index = 0;
 	private String packageName;
 	private StringRequest request;
@@ -39,7 +43,7 @@ public class DetailActivity extends BaseActivity {
 		// ActionBar actionBar = getActionBar();
 		// actionBar.setDisplayHomeAsUpEnabled(true);
 		detail_screen_horizontal = (MyHorizontalScrollView) findViewById(R.id.detail_screen_horizontal);
-
+		scrollView=(ScrollView) findViewById(R.id.scrollView);
 		initFrameLayout();
 
 	}
@@ -49,6 +53,9 @@ public class DetailActivity extends BaseActivity {
 		detailInfoView = new DetailInfoHolder(this);
 		detail_safe = (FrameLayout) findViewById(R.id.detail_safe);
 		detailSafeHolder = new DetailSafeHolder(this);
+		// 简介
+		detail_des = (FrameLayout) findViewById(R.id.detail_des);
+		desHolder = new DetailDesHolder(this,scrollView);
 	}
 
 	@Override
@@ -57,6 +64,7 @@ public class DetailActivity extends BaseActivity {
 		if (!TextUtils.isEmpty(packageName)) {
 			detail_info.addView(detailInfoView.getView());
 			detail_safe.addView(detailSafeHolder.getView());
+			detail_des.addView(desHolder.getView());
 			NetWorkResponse<AppInfo> netWorkResponse = new NetWorkResponse<AppInfo>(this, Method.GET, HttpHelper.getDetailUrl(index, packageName),
 					null) {
 
@@ -64,6 +72,7 @@ public class DetailActivity extends BaseActivity {
 				public void onSuccess(AppInfo backData) {
 					detailInfoView.initData(backData);
 					detailSafeHolder.initData(backData);
+					desHolder.initData(backData);
 					initScreenPic(backData.getScreen());
 				}
 			};
@@ -75,7 +84,7 @@ public class DetailActivity extends BaseActivity {
 	 */
 	protected void initScreenPic(List<String> screen) {
 		if (screen != null && screen.size() > 0) {
-				detail_screen_horizontal.initDatas(new HorizontalScrollViewAdapter(this, screen));
+			detail_screen_horizontal.initDatas(new HorizontalScrollViewAdapter(this, screen));
 		}
 
 	}
