@@ -1,5 +1,7 @@
 package com.example.googleplay.base;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -11,13 +13,14 @@ import com.example.googleplay.http.NetWorkResponseLoadMore;
 import com.example.googleplay.util.MoreHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * 具有加载更多的Adapter</br> T list中的实体类 ,E ViewHolder,需要从中获取list<T>用来加载更多
  * 
  * @author qianchao
  */
-public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T, E> {
+public abstract class BaseAdapterWithLoadMore<T, E, Q> extends BaseCommenAdapter<T, E> {
 
 	protected final int DEFAULT_ITEM = 0;
 	protected final int MORE_ITEM = 1;
@@ -106,15 +109,27 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 	 * @param moreHolder
 	 */
 	public void loadMore(final MoreHolder moreHolder) {
-		NetWorkResponseLoadMore loadMore = new NetWorkResponseLoadMore(context, getMethod(),getUrl(), getParam(), null) {
+		NetWorkResponseLoadMore loadMore = new NetWorkResponseLoadMore(context, getMethod(), getUrl(), getParam(), null) {
 
 			@Override
 			public void onSuccess(String backData) {
-				List<T> moreData = onLoadMore(mGson, backData);
+				List<T> moreData = null;
+				if (onLoadMore(mGson, backData) != null) {
+					moreData = onLoadMore(mGson, backData);
+				} else {
+					try {
+						moreData = mGson.fromJson(backData, getEType());
+					} catch (JsonSyntaxException e) {
+						System.out.println("解析泛型失败");
+						e.printStackTrace();
+					}
+				}
 				if (moreData == null) {
 					moreHolder.setData(MoreHolder.LOAD_ERROR);
+					size(0, lists.size());
 				} else if (moreData.size() == 0) {
 					moreHolder.setData(MoreHolder.HAS_NO_MORE);
+					size(0, lists.size());
 				} else {
 					// 成功获取数据
 					try {
@@ -123,6 +138,7 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 						e.printStackTrace();
 					}
 					lists.addAll(moreData);// 给listView之前的集合添加一个新的集合
+					size(moreData.size(), lists.size());
 					notifyDataSetChanged();// 刷新界面
 				}
 			}
@@ -151,11 +167,32 @@ public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T,
 	protected abstract Map<String, String> getParam();
 
 	/**
-	 * 子类通过这个方法将服务器返回的数据处理，返回加载更多的数据
+	 * 返回本次连接服务器获取的数据size和数据的总size
+	 * 
+	 * @param currentSize
+	 * @param totalSize
+	 * @return
+	 */
+	protected abstract void size(int currentSize, int totalSize);
+
+	/**
+	 * 子类通过这个方法将服务器返回的数据处理，返回加载更多的数据,也可以返回空值，那么需要添加泛型
 	 * 
 	 * @param backData
 	 * @return
 	 */
 	protected abstract List<T> onLoadMore(Gson mGson, String data);
+
+	public Type getEType() {
+		System.out.println(this.getClass());
+		System.out.println(this.getClass().getGenericSuperclass());
+		ParameterizedType pType = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Type[] types = pType.getActualTypeArguments();
+		if (types.length > 1) {
+			return types[types.length - 1];
+		} else {
+			return types[0];
+		}
+	}
 
 }

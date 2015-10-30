@@ -37,11 +37,11 @@ public abstract class NetWorkResponse<E> {
 	 * @param param
 	 * @param errorListener
 	 */
-	public NetWorkResponse(Context context, RequestQueue requestQueue, int method, final String url, Map<String, String> param,
-			Response.ErrorListener errorListener) {
-		initProgressDialog(context);
-		doStringRequest(context, method, url, param, errorListener);
-	}
+//	public NetWorkResponse(Context context, RequestQueue requestQueue, int method, final String url, Map<String, String> param,
+//			Response.ErrorListener errorListener) {
+//		initProgressDialog(context);
+//		doStringRequest(context, method, url, param, errorListener);
+//	}
 
 	/**
 	 * 发出一个请求,返回String,使用默认的的errorListener

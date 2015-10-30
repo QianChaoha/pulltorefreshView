@@ -48,7 +48,6 @@ public class HomeFragment extends BaseFragment {
 
 	public void onResume() {
 		super.onResume();
-		System.out.println("onResume");
 		clearList = true;
 	};
 
@@ -69,7 +68,7 @@ public class HomeFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				int newPosition = position - listview.getHeaderViewsCount();
 				if (newPosition >= 0 && appInfos != null && appInfos.size() > 0) {
-					clearList=false;
+					clearList = false;
 					Intent intent = new Intent(getActivity(), DetailActivity.class);
 					intent.putExtra("packageName", appInfos.get(newPosition).getPackageName());
 					startActivity(intent);
@@ -87,7 +86,7 @@ public class HomeFragment extends BaseFragment {
 				appInfos = backData.getList();
 				pictures = backData.getPicture();
 				index++;
-				homeContentAdapter = new HomeContentAdapter(getActivity(), backData.getList()) {
+				homeContentAdapter = new HomeContentAdapter<HomeData>(getActivity(), backData.getList()) {
 
 					@Override
 					protected String getUrl() {
@@ -113,6 +112,11 @@ public class HomeFragment extends BaseFragment {
 							return homeData.getList();
 						}
 						return null;
+					}
+
+					@Override
+					protected void size(int currentSize, int totalSize) {
+						
 					}
 
 				};
@@ -151,14 +155,13 @@ public class HomeFragment extends BaseFragment {
 	}
 
 	@Override
-	public void onStop() {
+	public void onDestroy() {
 		if (clearList) {
-			System.out.println("clearList");
 			handler.removeMessages(0);
-			//在viewpager滑动到游戏页面时，将homeFragment中appInfos清空,释放内存空间
-			appInfos.clear();
-			appInfos = null;
+			// 在viewpager滑动到游戏页面时，将homeFragment中appInfos清空,释放内存空间
+			// appInfos.clear();
+			// appInfos = null;
 		}
-		super.onStop();
+		super.onDestroy();
 	}
 }

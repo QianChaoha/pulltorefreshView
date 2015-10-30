@@ -50,6 +50,8 @@ public class HomePageAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		((ViewPager)container).removeView(commenNetImageViews.get(position));
+		if (position<commenNetImageViews.size()) {
+			((ViewPager)container).removeView(commenNetImageViews.get(position));
+		}
 	}
 }

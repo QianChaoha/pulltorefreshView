@@ -22,5 +22,7 @@
         <attr name="radius" format="dimension" />
         <attr name="circle" format="boolean" />
     </declare-styleable>
-
+ <declare-styleable name="ratioLayout">
+        <attr  name="ratio"  format="float"></attr>
+    </declare-styleable>
 </resources>

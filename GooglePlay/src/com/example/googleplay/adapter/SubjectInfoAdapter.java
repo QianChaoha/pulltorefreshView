@@ -7,13 +7,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.googleplay.R;
+import com.example.googleplay.base.BaseAdapterWithLoadMore;
 import com.example.googleplay.base.BaseCommenAdapter;
 import com.example.googleplay.data.SubJectData;
 import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.view.CommenNetImageView;
 
-public class SubjectInfoAdapter extends BaseCommenAdapter<SubJectData, ViewHolder> {
+public abstract class SubjectInfoAdapter<T> extends BaseAdapterWithLoadMore<SubJectData, ViewHolder,List<SubJectData>> {
 
 
 	/**

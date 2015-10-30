@@ -18,7 +18,7 @@ import com.example.googleplay.util.MoreHolder;
  * 
  * @author qianchao
  */
-public abstract class AdapterLoadMoreWithAnim<T, E> extends BaseAdapterWithLoadMore<T, E> {
+public abstract class AdapterLoadMoreWithAnim<T, E,Q> extends BaseAdapterWithLoadMore<T, E,Q> {
 	/**
 	 * @param context
 	 * @param lists

@@ -11,12 +11,13 @@ import android.widget.TextView;
 import com.example.googleplay.R;
 import com.example.googleplay.base.AdapterLoadMoreWithAnim;
 import com.example.googleplay.data.AppInfo;
+import com.example.googleplay.data.HomeData;
 import com.example.googleplay.data.HomeViewHolder;
 import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.view.CommenNetImageView;
 
-public abstract class HomeContentAdapter extends AdapterLoadMoreWithAnim<AppInfo, HomeViewHolder> {
+public abstract class HomeContentAdapter<T> extends AdapterLoadMoreWithAnim<AppInfo, HomeViewHolder,HomeData> {
 
 
 	/**

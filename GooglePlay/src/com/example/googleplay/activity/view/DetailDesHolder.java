@@ -17,14 +17,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.example.googleplay.R;
 import com.example.googleplay.base.BaseViewHolder;
 import com.example.googleplay.data.AppInfo;
 
 /**
- * Description: Company: guanghua
- * 
  * @author qianchao
  */
 public class DetailDesHolder extends BaseViewHolder<AppInfo> implements OnClickListener {
@@ -36,7 +33,7 @@ public class DetailDesHolder extends BaseViewHolder<AppInfo> implements OnClickL
 
 	/**
 	 * @param context
-	 * @param bottom_layout 
+	 * @param bottom_layout
 	 */
 	public DetailDesHolder(Context context, ScrollView scrollView) {
 		super(context);
@@ -119,33 +116,34 @@ public class DetailDesHolder extends BaseViewHolder<AppInfo> implements OnClickL
 				int height = (Integer) animation.getAnimatedValue();
 				layoutParams.height = height;
 				des_content.setLayoutParams(layoutParams);
-				scrollView.scrollTo(0, scrollView.getMeasuredHeight());// 让scrollView 移动到最下面
+				scrollView.scrollTo(0, scrollView.getMeasuredHeight());// 让scrollView
+																		// 移动到最下面
 			}
 		});
 		valueAnimator.addListener(new AnimatorListener() {
-			
+
 			@Override
 			public void onAnimationStart(Animator animation) {
-				
+
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				
+
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				if (isDown) {
 					des_arrow.setImageResource(R.drawable.arrow_down);
-				}else {
+				} else {
 					des_arrow.setImageResource(R.drawable.arrow_up);
 				}
 			}
-			
+
 			@Override
 			public void onAnimationCancel(Animator animation) {
-				
+
 			}
 		});
 		valueAnimator.start();
