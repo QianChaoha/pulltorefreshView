@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp" >
+
+    <RelativeLayout
+        android:id="@+id/rl_1"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/grid_item_bg"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <com.example.googleplay.view.CommenNetImageView
+            android:id="@+id/iv_1"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_default" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_1"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff7a7a7a" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_2"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/grid_item_bg"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <com.example.googleplay.view.CommenNetImageView
+            android:id="@+id/iv_2"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_default" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_2"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff7a7a7a" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_3"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/grid_item_bg"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <com.example.googleplay.view.CommenNetImageView
+            android:id="@+id/iv_3"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_default" />
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_3"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff7a7a7a" />
+    </RelativeLayout>
+
+</LinearLayout>

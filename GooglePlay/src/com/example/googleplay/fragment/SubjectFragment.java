@@ -33,7 +33,6 @@ public class SubjectFragment extends BaseFragment {
 
 	@Override
 	protected void initData() {
-		// baseListView.setAdapter(new SubjectInfoAdapter(getActivity(), lists))
 		 NetWorkResponse<List<SubJectData>> netWorkResponse = new NetWorkResponse<List<SubJectData>>(getActivity(), Method.GET,
 				HttpHelper.SUBJECT_URL+index, null) {
 
@@ -58,7 +57,6 @@ public class SubjectFragment extends BaseFragment {
 
 					@Override
 					protected List<SubJectData> onLoadMore(Gson mGson, String data) {
-//						List<SubJectData> subJectDatas=mGson.fromJson(data, List<SubJectData>);
 						return null;
 					}
 
@@ -66,11 +64,6 @@ public class SubjectFragment extends BaseFragment {
 					protected void size(int currentSize, int totalSize) {
 						index=totalSize;
 					}
-
-//					@Override
-//					protected Type getType() {
-//						return  .getEType();
-//					}
 
 				});
 			}

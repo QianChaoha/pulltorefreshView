@@ -8,6 +8,7 @@ import java.util.Map;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.HttpHeaderParser;
@@ -27,6 +28,8 @@ import com.google.gson.GsonBuilder;
 public abstract class NetWorkResponse<E> {
 	private ProgressDialog mProgressDialog;
 	private Gson mGson = new GsonBuilder().disableHtmlEscaping().create();
+	final String URL_TAG = "url";
+	final String RESULT_TAG = "result";
 
 	/**
 	 * 发出一个请求,返回String,使用自定义的errorListener
@@ -37,11 +40,12 @@ public abstract class NetWorkResponse<E> {
 	 * @param param
 	 * @param errorListener
 	 */
-//	public NetWorkResponse(Context context, RequestQueue requestQueue, int method, final String url, Map<String, String> param,
-//			Response.ErrorListener errorListener) {
-//		initProgressDialog(context);
-//		doStringRequest(context, method, url, param, errorListener);
-//	}
+	// public NetWorkResponse(Context context, RequestQueue requestQueue, int
+	// method, final String url, Map<String, String> param,
+	// Response.ErrorListener errorListener) {
+	// initProgressDialog(context);
+	// doStringRequest(context, method, url, param, errorListener);
+	// }
 
 	/**
 	 * 发出一个请求,返回String,使用默认的的errorListener
@@ -58,8 +62,8 @@ public abstract class NetWorkResponse<E> {
 
 	public void doStringRequest(final Context context, int method, final String url, final Map<String, String> param,
 			Response.ErrorListener errorListener) {
-		System.out.println("url" + url);
-		if (mProgressDialog!=null) {
+		Log.d(URL_TAG, url);
+		if (mProgressDialog != null) {
 			mProgressDialog.show();
 		}
 		if (errorListener == null) {
@@ -156,12 +160,12 @@ public abstract class NetWorkResponse<E> {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
-		System.out.println(backResult);
+		Log.d(RESULT_TAG, backResult);
 		if (!TextUtils.isEmpty(backResult)) {
 			// 本地缓存json数据
 			FileUtils.saveLocal(backResult, url, context);
 		}
-		E e =null;
+		E e = null;
 		try {
 			e = createClassFromJson(backResult);
 		} catch (Exception exception) {

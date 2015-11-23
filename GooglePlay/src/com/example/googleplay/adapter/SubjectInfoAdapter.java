@@ -14,7 +14,7 @@ import com.example.googleplay.http.HttpHelper;
 import com.example.googleplay.http.NetRequest;
 import com.example.googleplay.view.CommenNetImageView;
 
-public abstract class SubjectInfoAdapter<T> extends BaseAdapterWithLoadMore<SubJectData, ViewHolder,List<SubJectData>> {
+public abstract class SubjectInfoAdapter<T> extends BaseAdapterWithLoadMore<SubJectData, ViewHolder> {
 
 
 	/**

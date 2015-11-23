@@ -20,7 +20,7 @@ import com.google.gson.JsonSyntaxException;
  * 
  * @author qianchao
  */
-public abstract class BaseAdapterWithLoadMore<T, E, Q> extends BaseCommenAdapter<T, E> {
+public abstract class BaseAdapterWithLoadMore<T, E> extends BaseCommenAdapter<T, E> {
 
 	protected final int DEFAULT_ITEM = 0;
 	protected final int MORE_ITEM = 1;
@@ -184,8 +184,6 @@ public abstract class BaseAdapterWithLoadMore<T, E, Q> extends BaseCommenAdapter
 	protected abstract List<T> onLoadMore(Gson mGson, String data);
 
 	public Type getEType() {
-		System.out.println(this.getClass());
-		System.out.println(this.getClass().getGenericSuperclass());
 		ParameterizedType pType = (ParameterizedType) this.getClass().getGenericSuperclass();
 		Type[] types = pType.getActualTypeArguments();
 		if (types.length > 1) {
