@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="list_item_title_size">16dp</dimen>
-    <dimen name="list_item_loadmore_height">40dp</dimen>
-    <dimen name="list_item_margin">9dp</dimen>
-    <dimen name="home_picture_height">134dp</dimen>
-    <dimen name="list_item_rating_height">14dp</dimen>
-    <dimen name="app_detail_rating_margin">5dp</dimen>
-</resources>
